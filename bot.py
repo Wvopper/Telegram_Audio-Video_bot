@@ -42,7 +42,7 @@ def downloader(message):
     button_to_start = ttp.KeyboardButton(text='Вернуться в меню')
     keyboard_return.add(button_to_start)
     # checking url validity
-    if message.text[:28] in 'https://www.youtube.com/watch':
+    if message.text[:13] == 'https://youtu':
         print(message.text)
         bot.send_message(message.chat.id, 'Отично! Загрузка видео может занять какое-то время.' \
                                           ' Пока можете пересмотреть игру престолов')
@@ -53,8 +53,10 @@ def downloader(message):
         while flag:
             try:
                 video = YouTube(url)
+                if video.length >= 425:
+                    break
                 audio = video.streams.filter(only_audio=True, file_extension='mp4').first()
-                audio.download('stack',)
+                audio.download('stack', f"{video.title}.mp4")
                 file_path = fr'C:\Users\1234x\PycharmProjects\Telegram_Audio-Video_bot\stack\{video.title}.mp4'
                 with open(file_path, 'rb') as send:
                     bot.send_audio(message.chat.id, send)
