@@ -119,6 +119,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+/img
 
 # mypy
 .mypy_cache/
@@ -131,3 +132,4 @@ dmypy.json
 # trash files
 test_script.py
 trash_code.txt
+img/Noisy Robot Logo.jpeg

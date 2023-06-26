@@ -42,31 +42,29 @@ def downloader(message):
     button_to_start = ttp.KeyboardButton(text='Вернуться в меню')
     keyboard_return.add(button_to_start)
     # checking url validity
-    if message.text[:13] == 'https://youtu':
-        print(message.text)
-        bot.send_message(message.chat.id, 'Отично! Загрузка видео может занять какое-то время.' \
-                                          ' Пока можете пересмотреть игру престолов')
-        url = message.text
-        flag = True
-        error_cnt = 0
-        # while True loop to avoid errors and exceptions from pytube
-        while flag:
-            try:
-                video = YouTube(url)
-                if video.length >= 425:
-                    break
-                audio = video.streams.filter(only_audio=True, file_extension='mp4').first()
-                audio.download('stack', f"{video.title}.mp4")
-                file_path = fr'C:\Users\1234x\PycharmProjects\Telegram_Audio-Video_bot\stack\{video.title}.mp4'
-                with open(file_path, 'rb') as send:
-                    bot.send_audio(message.chat.id, send)
-                os.remove(file_path)
-                flag = False
-            except KeyError: # exception from pytube
-                print(f'still again {error_cnt}')
-                error_cnt += 1
-                if error_cnt == 20:
-                    flag = None
+    # if 'youtu' in message.text:
+    print(message.text)
+    bot.send_message(message.chat.id, 'Отично! Загрузка видео может занять какое-то время.' \
+                                  ' Пока можете пересмотреть игру престолов')
+    url = message.text
+    flag = True
+    error_cnt = 0
+    # while True loop to avoid errors and exceptions from pytube
+    while flag:
+        try:
+            video = YouTube(url)
+            audio = video.streams.filter(only_audio=True, file_extension='mp4').first()
+            audio.download('stack', f"{video.title}.mp4")
+            file_path = fr'C:\Users\1234x\PycharmProjects\Telegram_Audio-Video_bot\stack\{video.title}.mp4'
+            with open(file_path, 'rb') as send:
+                bot.send_audio(message.chat.id, send)
+            os.remove(file_path)
+            flag = False
+        except KeyError: # exception from pytube
+            print(f'still again {error_cnt}')
+            error_cnt += 1
+            if error_cnt >= 20:
+                flag = None
         # reaction if everything OK
         if flag is False:
             sent = bot.send_message(message.chat.id, 'А вот и ваше аудио! Нажав на /start вы сможете вернуться в главное меню',
@@ -75,7 +73,7 @@ def downloader(message):
         # reaction if too many exceptions
         if flag is None:
             sent = bot.send_message(message.chat.id, 'С большой долей вероятности вы ввели не ту ссылку.'
-                                                     ' Вернитесь в меню (/start), перечитайте правила, попробуйте снова')
+                                                 ' Вернитесь в меню (/start), перечитайте правила, попробуйте снова')
             bot.register_next_step_handler(sent, send_welcome)
     # reaction if url is invalid
     else:
