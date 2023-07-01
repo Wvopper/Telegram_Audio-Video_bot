@@ -28,7 +28,3 @@ ___
 ![finish](img/finish_canvertor.png)
 
 Technologies that were used: pythonTelegramBotApi, pytube, moviepy
-
-# Attention!
-
-<p>Due to the fact that pytube library works incorrect the bot also cannot work as usual. We are waiting the fixing of the problem.</p>
